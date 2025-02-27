@@ -20,3 +20,29 @@ module.exports.registerUser = (async (req,resp,next)=>{
   resp.status(201).json({token,user});
 
 });
+
+module.exports.loginUser = (async (req,resp,next)=>{
+  const errors = validationResult(req);
+
+  if(!errors.isEmpty()){
+    return resp.status(400).json({errors: errors.array()});
+  }
+
+  const {email, password} = req.body;
+
+  const user = await userModel.findOne({email}).select('+password');
+
+  if(!user){
+    return resp.status(401).json({message: 'Invalid email or password'});
+  }
+
+  const isMatch = await user.comparePassword(password);
+
+  if(!isMatch){
+    return resp.status(401).json({message: 'Invalid email or password'});
+  }
+
+  const token = user.generateAuthtoken();
+
+  resp.status(200).json({token,user});
+});
