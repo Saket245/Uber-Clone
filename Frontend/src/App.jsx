@@ -9,6 +9,7 @@ import { UserDataContext } from "./context/userContext";
 import Home from "./pages/Home";
 import UserProtectedWrapper from "./pages/UserProtectedWrapper";
 import UserLogout from "./pages/UserLogout";
+import CaptainHome from "./pages/CaptainHome";
 
 function App() {
 
@@ -22,6 +23,7 @@ function App() {
         <Route path="/captain-signup" element={<CaptainSignup/>}/>
         <Route path="/captain-login" element={<CaptainLogin/>}/>
         <Route path="/home" element={<UserProtectedWrapper><Home/></UserProtectedWrapper>}/>
+        <Route path="/captain-home" element={<CaptainHome/>}/>
         <Route path="/user/logout" element={<UserLogout/>}/>
        </Routes>
       </div>
