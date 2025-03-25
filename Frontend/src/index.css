@@ -8,3 +8,10 @@
  border: 0;
  background-color: #eeeeee;    
 }
+
+.loactionIcon{
+    border-radius: 50%; 
+    height: 35px;
+    width: 60px;
+    background-color: #eee;
+}
