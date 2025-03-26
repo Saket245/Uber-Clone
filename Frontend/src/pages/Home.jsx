@@ -4,6 +4,8 @@ import map from "../Images/map.jpg";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import LocationSearchPanel from "../components/LocationSearchPanel";
 import PersonIcon from '@mui/icons-material/Person';
+import {useGSAP} from "@gsap/react"
+import gsap from "gsap";
 
 const Home = () => {
   useEffect(() => {
@@ -43,11 +45,25 @@ const Home = () => {
 
   const [pickup, setPickup] = useState("");
   const [destination, setDestination] = useState("");
+  const [vehiclePanel, setVehiclePanel] = useState(false);
+  const vehiclePanelRef = useRef(null);
 
   const submitHandler = (e) => {
     e.preventDefault();
   };
   
+  useGSAP(function(){
+    if(vehiclePanel){
+      gsap.to(vehiclePanelRef.current,{
+        transform:"translateY(0)",      
+      })
+    }
+    else{
+      gsap.to(vehiclePanelRef.current,{
+        transform:"translateY(100%)"
+      })
+    }
+  },[vehiclePanel])
 
   return (
     <div>
@@ -119,11 +135,12 @@ const Home = () => {
           className="p-3 visually-hidden bg-white"
           style={{ height: "70%" }}
         >
-          <LocationSearchPanel />
+          <LocationSearchPanel vehiclePanel={vehiclePanel} setVehiclePanel={setVehiclePanel}/>
         </div>
       </div>
 
-      <div className="w-100 position-fixed bottom-0 z-3 bg-white p-3">
+      <div ref={vehiclePanelRef} className="w-100 position-fixed bottom-0 z-3 bg-white p-3">
+      <h3 className="mb-3">Choose a vehicle</h3>
       <div className="d-flex justify-content-between align-items-center w-100 p-2" style={{border:"2px solid black", borderRadius:"10px"}}>
       <img className="" style={{height:"50px", width:"70px"}} src="https://www.uber-assets.com/image/upload/f_auto,q_auto:eco,c_fill,h_538,w_956/v1688398971/assets/29/fbb8b0-75b1-4e2a-8533-3a364e7042fa/original/UberSelect-White.png" alt="car logo"/>
       <div className="w-50">
