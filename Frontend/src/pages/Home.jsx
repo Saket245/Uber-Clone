@@ -6,9 +6,11 @@ import LocationSearchPanel from "../components/LocationSearchPanel";
 import {useGSAP} from "@gsap/react"
 import gsap from "gsap";
 import VehiclePanel from "../components/VehiclePanel";
+import ConfirmRide from "../components/ConfirmRide";
 
 const Home = () => {
   const [vehiclePanel, setVehiclePanel] = useState(false);
+  const [confirmRidePanel, setConfirmRidePanel] = useState(false);
   const [showContentPanel,setShowContentPanel] = useState(true);
 
   useEffect(() => {
@@ -44,11 +46,12 @@ const Home = () => {
         }
       };
     }
-  }, [vehiclePanel,showContentPanel]);
+  }, [vehiclePanel,showContentPanel,confirmRidePanel]);
 
   const [pickup, setPickup] = useState("");
   const [destination, setDestination] = useState("");
   const vehiclePanelRef = useRef(null);
+  const confirmRidePanelRef = useRef(null);
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -68,6 +71,21 @@ const Home = () => {
       })
     }
   },[vehiclePanel])
+  
+  useGSAP(function(){
+    if(confirmRidePanel){
+      setShowContentPanel(false);
+      gsap.to(confirmRidePanelRef.current,{
+        transform:"translateY(0)",      
+      })
+    }
+    else{
+      setShowContentPanel(true);
+      gsap.to(confirmRidePanelRef.current,{
+        transform:"translateY(100%)"
+      })
+    }
+  },[confirmRidePanel])
 
   return (
     <div>
@@ -151,7 +169,12 @@ const Home = () => {
       
       <div ref={vehiclePanelRef} className="w-100 position-fixed bottom-0 z-3 bg-white p-3">
       
-       <VehiclePanel setVehiclePanel={setVehiclePanel} setShowContentPanel={setShowContentPanel}/>
+       <VehiclePanel setConfirmRidePanel={setConfirmRidePanel} setVehiclePanel={setVehiclePanel} setShowContentPanel={setShowContentPanel}/>
+
+      </div>
+      <div ref={confirmRidePanelRef} className="w-100 position-fixed bottom-0 z-3 bg-white p-3">
+      
+      <ConfirmRide setConfirmRidePanel={setConfirmRidePanel} setShowContentPanel={setShowContentPanel} setVehiclePanel={setVehiclePanel}/>
 
       </div>
     </div>
