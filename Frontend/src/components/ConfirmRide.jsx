@@ -55,7 +55,7 @@ const ConfirmRide = (props) => {
           </div>
           
         </div>
-        <button className="w-100 bg-success text-white rounded border-0 mt-2" style={{padding:"5px 0"}}>
+        <button className="w-100 bg-success text-white rounded border-0 mt-2" style={{padding:"5px 0"}} onClick={()=>{props.setConfirmRidePanel(false); props.setVehicleFound(true);}}>
           Confirm
         </button>
       </div>

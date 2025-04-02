@@ -1,17 +1,21 @@
 import React, { useEffect, useRef, useState } from "react";
 import uberLogo from "../Images/uberLogo.png";
 import map from "../Images/map.jpg";
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import LocationSearchPanel from "../components/LocationSearchPanel";
-import {useGSAP} from "@gsap/react"
+import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import VehiclePanel from "../components/VehiclePanel";
 import ConfirmRide from "../components/ConfirmRide";
+import LookingForDriver from "../components/LookingForDriver";
+import WaitingForDriver from "../components/WaitingForDriver";
 
 const Home = () => {
   const [vehiclePanel, setVehiclePanel] = useState(false);
   const [confirmRidePanel, setConfirmRidePanel] = useState(false);
-  const [showContentPanel,setShowContentPanel] = useState(true);
+  const [vehicleFound, setVehicleFound] = useState(false);
+  const [waitingForDriver, setWaitingForDriver] = useState(false);
+  const [showContentPanel, setShowContentPanel] = useState(true);
 
   useEffect(() => {
     // Wait for the component to be rendered and then add event listener
@@ -42,50 +46,89 @@ const Home = () => {
         if (addPickupInput || addDestinationInput) {
           addDestinationInput.removeEventListener("focus", focusHandler);
           addPickupInput.removeEventListener("focus", focusHandler);
-
         }
       };
     }
-  }, [vehiclePanel,showContentPanel,confirmRidePanel]);
+  }, [vehiclePanel, showContentPanel, confirmRidePanel, vehicleFound, waitingForDriver]);
 
   const [pickup, setPickup] = useState("");
   const [destination, setDestination] = useState("");
   const vehiclePanelRef = useRef(null);
   const confirmRidePanelRef = useRef(null);
+  const vehicleFoundRef = useRef(null);
+  const waitingForDriverRef = useRef(null);
 
   const submitHandler = (e) => {
     e.preventDefault();
   };
-  
-  useGSAP(function(){
-    if(vehiclePanel){
-      setShowContentPanel(false);
-      gsap.to(vehiclePanelRef.current,{
-        transform:"translateY(0)",      
-      })
-    }
-    else{
-      setShowContentPanel(true);
-      gsap.to(vehiclePanelRef.current,{
-        transform:"translateY(100%)"
-      })
-    }
-  },[vehiclePanel])
-  
-  useGSAP(function(){
-    if(confirmRidePanel){
-      setShowContentPanel(false);
-      gsap.to(confirmRidePanelRef.current,{
-        transform:"translateY(0)",      
-      })
-    }
-    else{
-      setShowContentPanel(true);
-      gsap.to(confirmRidePanelRef.current,{
-        transform:"translateY(100%)"
-      })
-    }
-  },[confirmRidePanel])
+
+  useGSAP(
+    function () {
+      if (vehiclePanel) {
+        setShowContentPanel(false);
+        gsap.to(vehiclePanelRef.current, {
+          transform: "translateY(0)",
+        });
+      } else {
+        setShowContentPanel(true);
+        gsap.to(vehiclePanelRef.current, {
+          transform: "translateY(100%)",
+        });
+      }
+    },
+    [vehiclePanel]
+  );
+
+  useGSAP(
+    function () {
+      if (confirmRidePanel) {
+        setShowContentPanel(false);
+        gsap.to(confirmRidePanelRef.current, {
+          transform: "translateY(0)",
+        });
+      } else {
+        setShowContentPanel(true);
+        gsap.to(confirmRidePanelRef.current, {
+          transform: "translateY(100%)",
+        });
+      }
+    },
+    [confirmRidePanel]
+  );
+
+  useGSAP(
+    function () {
+      if (vehicleFound) {
+        setShowContentPanel(false);
+        gsap.to(vehicleFoundRef.current, {
+          transform: "translateY(0)",
+        });
+      } else {
+        setShowContentPanel(true);
+        gsap.to(vehicleFoundRef.current, {
+          transform: "translateY(100%)",
+        });
+      }
+    },
+    [vehicleFound]
+  );
+
+  useGSAP(
+    function () {
+      if (waitingForDriver) {
+        setShowContentPanel(false);
+        gsap.to(waitingForDriverRef.current, {
+          transform: "translateY(0)",
+        });
+      } else {
+        setShowContentPanel(true);
+        gsap.to(waitingForDriverRef.current, {
+          transform: "translateY(100%)",
+        });
+      }
+    },
+    [waitingForDriver]
+  );
 
   return (
     <div>
@@ -107,75 +150,110 @@ const Home = () => {
         />
       </div>
 
-      {showContentPanel && 
-      <>
-      <div
-        id="locationContent"
-        className="bg-white position-absolute bottom-0 w-100 d-flex flex-column justify-content-end"
-      >
-        <div className="bg-white p-5" style={{ height: "30%" }}>
-            <ArrowBackIcon id="btnBack"
-            className="position-absolute top-0 d-none"
-            style={{ marginLeft: "-45px", marginTop: "8px" }}/>      
-          <h4 style={{ marginLeft: "-8px", fontWeight: "bold" }}>
-            Find a trip
-          </h4>
-          <form
-            onSubmit={(e) => {
-              submitHandler(e);
-            }}
+      {showContentPanel && (
+        <>
+          <div
+            id="locationContent"
+            className="bg-white position-absolute bottom-0 w-100 d-flex flex-column justify-content-end"
           >
-            <div
-              className="position-absolute rounded"
-              style={{
-                backgroundColor: "#272424",
-                height: "60px",
-                left: "58px",
-                top: "100px",
-              }}
-            >
-              |
+            <div className="bg-white p-5" style={{ height: "30%" }}>
+              <ArrowBackIcon
+                id="btnBack"
+                className="position-absolute top-0 d-none"
+                style={{ marginLeft: "-45px", marginTop: "8px" }}
+              />
+              <h4 style={{ marginLeft: "-8px", fontWeight: "bold" }}>
+                Find a trip
+              </h4>
+              <form
+                onSubmit={(e) => {
+                  submitHandler(e);
+                }}
+              >
+                <div
+                  className="position-absolute rounded"
+                  style={{
+                    backgroundColor: "#272424",
+                    height: "60px",
+                    left: "58px",
+                    top: "100px",
+                  }}
+                >
+                  |
+                </div>
+                <input
+                  id="addPickup"
+                  type="text"
+                  className="px-3 py-2 rounded mb-2 w-100"
+                  style={{ backgroundColor: "#eee", border: "0" }}
+                  placeholder="Add a pick-up location"
+                  value={pickup}
+                  onChange={(e) => setPickup(e.target.value)}
+                />
+                <input
+                  id="addDestination"
+                  type="text"
+                  className="px-3 py-2 rounded w-100"
+                  style={{ backgroundColor: "#eee", border: "0" }}
+                  placeholder="Enter your destination"
+                  value={destination}
+                  onChange={(e) => setDestination(e.target.value)}
+                />
+              </form>
             </div>
-            <input
-              id="addPickup"
-              type="text"
-              className="px-3 py-2 rounded mb-2 w-100"
-              style={{ backgroundColor: "#eee", border:"0" }}
-              placeholder="Add a pick-up location"
-              value={pickup}
-              onChange={(e) => setPickup(e.target.value)}
-            />
-            <input
-              id="addDestination"
-              type="text"
-              className="px-3 py-2 rounded w-100"
-              style={{ backgroundColor: "#eee", border:"0" }}
-              placeholder="Enter your destination"
-              value={destination}
-              onChange={(e) => setDestination(e.target.value)}
-            />
-          </form>
-        </div>
-        <div
-          id="bottomDiv"
-          className="p-3 visually-hidden bg-white"
-          style={{ height: "70%" }}
-        >
-          <LocationSearchPanel vehiclePanel={vehiclePanel} setVehiclePanel={setVehiclePanel}/>
-        </div>
+            <div
+              id="bottomDiv"
+              className="p-3 visually-hidden bg-white"
+              style={{ height: "70%" }}
+            >
+              <LocationSearchPanel
+                vehiclePanel={vehiclePanel}
+                setVehiclePanel={setVehiclePanel}
+              />
+            </div>
+          </div>
+        </>
+      )}
+
+      <div
+        ref={vehiclePanelRef}
+        className="w-100 position-fixed bottom-0 z-3 bg-white p-3"
+      >
+        <VehiclePanel
+          setConfirmRidePanel={setConfirmRidePanel}
+          setVehiclePanel={setVehiclePanel}
+          setShowContentPanel={setShowContentPanel}
+        />
       </div>
-
-      </>}
-      
-      <div ref={vehiclePanelRef} className="w-100 position-fixed bottom-0 z-3 bg-white p-3">
-      
-       <VehiclePanel setConfirmRidePanel={setConfirmRidePanel} setVehiclePanel={setVehiclePanel} setShowContentPanel={setShowContentPanel}/>
-
+      <div
+        ref={confirmRidePanelRef}
+        className="w-100 position-fixed bottom-0 z-3 bg-white p-3"
+      >
+        <ConfirmRide
+          setConfirmRidePanel={setConfirmRidePanel}
+          setShowContentPanel={setShowContentPanel}
+          setVehiclePanel={setVehiclePanel}
+          setVehicleFound={setVehicleFound}
+        />
       </div>
-      <div ref={confirmRidePanelRef} className="w-100 position-fixed bottom-0 z-3 bg-white p-3">
-      
-      <ConfirmRide setConfirmRidePanel={setConfirmRidePanel} setShowContentPanel={setShowContentPanel} setVehiclePanel={setVehiclePanel}/>
-
+      <div
+        ref={vehicleFoundRef}
+        className="w-100 position-fixed bottom-0 z-3 bg-white p-3"
+      >
+        <LookingForDriver
+          setVehicleFound={setVehicleFound}
+          setShowContentPanel={setShowContentPanel}
+          setVehiclePanel={setVehiclePanel}
+        />
+      </div>
+      <div   
+      ref={waitingForDriverRef}   
+        className="w-100 position-fixed bottom-0 z-3 bg-white p-3"
+      >
+        <WaitingForDriver   
+          setWaitingForDriver={setWaitingForDriver}
+          setShowContentPanel={setShowContentPanel}
+          setVehiclePanel={setVehiclePanel}/>
       </div>
     </div>
   );
