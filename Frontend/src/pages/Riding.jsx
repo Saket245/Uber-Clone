@@ -9,7 +9,7 @@ const Riding = () => {
   return (
     <>
       <div className="h-100">
-      <Link className="position-fixed bg-white d-flex justify-content-center align-items-center" style={{height:"50px", width:"50px", border:"0", borderRadius:"50px"}}><HomeIcon style={{color:"black"}}/></Link>
+      <Link to="/home" className="position-fixed bg-white d-flex justify-content-center align-items-center" style={{height:"50px", width:"50px", border:"0", borderRadius:"50px", right:"8px", top:"8px"}}><HomeIcon style={{color:"black"}}/></Link>
         <div className="h-50">
           <img
             style={{ height: "50vh", width: "100vw" }}
