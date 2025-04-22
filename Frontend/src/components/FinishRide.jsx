@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
@@ -6,24 +6,18 @@ import SquareIcon from '@mui/icons-material/Square';
 import { yellow } from '@mui/material/colors';
 import { Link } from 'react-router-dom';
 
-const ConfirmRidePopUp = (props) => {
-
-  const [otp,setOtp] = useState('');
-
-  const submitHandler = (e)=>{
-    e.preventDefault();
-  }
-
-  return (  <>
-    <ArrowBackIcon
+const FinishRide = (props) => {
+  return (
+    <>
+         <ArrowBackIcon
   id="btnBackVehicle"
   style={{ marginTop: "-20px", marginLeft: "-12px" }}
-  onClick={(e) => {
-  props.setRidePopUpPanel(false);
+  onClick={() => {
+  props.setFinishRidePanel(false);
   }}
 />
-<h3 className="mt-3 mb-4">Confirm this ride to start</h3>
-<div className="w-100 d-flex align-items-center justify-content-between mb-4 mt-4 p-3" style={{borderRadius:"30px", backgroundColor:yellow[500]}}>
+<h3 className="mt-3 mb-4">Finish this Ride</h3>
+<div className="w-100 d-flex align-items-center justify-content-between mb-4 mt-4 p-3" style={{borderRadius:"30px", border:"2px solid #ffff52"}}>
   <div className='d-flex align-items-center gap-2'>
   <img
       style={{ height: "40px", width: "40px", borderRadius:"50%" }}
@@ -72,18 +66,15 @@ const ConfirmRidePopUp = (props) => {
     
   </div>
 
-   <form className='mt-5 w-100' onSubmit={(e)=>submitHandler(e)}>
-   <input onChange={(e)=>setOtp(e.target.value)} value={otp} className='form-control p-2' placeholder='Enter OTP'/>
-   <Link className="w-100 bg-success text-white rounded border-0 mt-2 d-flex justify-content-center" style={{padding:"5px 0",textDecoration:"none"}} to="/captain-riding">
-   Confirm
+   <Link className="w-100 bg-success text-white rounded border-0 mt-4 mb-2  d-flex justify-content-center" style={{padding:"5px 0",textDecoration:"none"}} to="/captain-riding">
+   Finish Ride
   </Link>
-  <button className="w-100 text-white rounded border-0 mt-2" style={{padding:"5px 0", backgroundColor:"red"}} onClick={()=>{props.setRidePopUpPanel(false);props.setConfirmRidePopUpPanel(false);}}>
-    Cancel
-  </button>
-   </form>
+
+<p style={{color:"red",fontSize:"15px"}}>click on finish ride button if you have completed the payment</p>
+
 </div>
-</>
-);
+    </>
+  )
 }
 
-export default ConfirmRidePopUp
+export default FinishRide

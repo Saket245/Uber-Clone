@@ -5,6 +5,7 @@ import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
 import SquareIcon from '@mui/icons-material/Square';
 import { yellow } from '@mui/material/colors';
 
+
 const RidePopUp = (props) => {
   return (
     <>
@@ -67,7 +68,7 @@ const RidePopUp = (props) => {
         <button className="w-100 bg-success text-white rounded border-0 mt-2" style={{padding:"5px 0"}} onClick={()=>{props.setConfirmRidePopUpPanel(true);}}>
           Accept
         </button>
-        <button className="w-100 text-white rounded border-0 mt-2" style={{padding:"5px 0", backgroundColor:"#a2a2a2"}} onClick={()=>{props.setRidePopUpPanel(false);}}>
+        <button className="w-100 text-white rounded border-0 mt-2 mb-2" style={{padding:"5px 0", backgroundColor:"#a2a2a2"}} onClick={()=>{props.setRidePopUpPanel(false);}}>
           Ignore
         </button>
       </div>
